@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+<!--        <variable name="onClick" type="android.view.View.OnClickListener" />-->
+<!--        <variable name="tabList" type="String[]" />-->
+<!--        <variable name="viewPager" type="androidx.viewpager2.widget.ViewPager2" />-->
+<!--        <variable name="pagerAdapter" type="com.c0de_h0ng.kakaosearch.ui.scene.main.adapter.MainPagerAdapter" />-->
+<!--        <variable name="onCheckedChangedListener" type="android.widget.RadioGroup.OnCheckedChangeListener" />-->
+<!--        <variable name="onEditorActionListener" type="android.widget.TextView.OnEditorActionListener" />-->
+<!--        <variable name="searchWordTextWatcher" type="android.text.TextWatcher" />-->
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="2dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/ic_search"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginStart="20dp"/>
+
+            <com.c0de_h0ng.kakaosearchcleanac.common.ClearEditText
+                android:id="@+id/et_search_word"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:hint="@string/search_hint"
+                style="@style/KakaoEditTextStyle"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:inputType="text"
+                android:imeOptions="actionSearch"
+                android:maxLines="1"/>
+
+            <!--
+                text_watcher="@{searchWordTextWatcher}"
+                editor_action="@{onEditorActionListener}"-->
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</layout>
