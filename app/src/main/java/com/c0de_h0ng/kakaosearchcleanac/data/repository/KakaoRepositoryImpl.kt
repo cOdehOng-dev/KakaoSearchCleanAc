@@ -3,6 +3,7 @@ package com.c0de_h0ng.kakaosearchcleanac.data.repository
 import com.c0de_h0ng.kakaosearchcleanac.data.remote.KakaoApi
 import com.c0de_h0ng.kakaosearchcleanac.data.remote.dto.blog.BlogDto
 import com.c0de_h0ng.kakaosearchcleanac.domain.repository.KakaoRepository
+import io.reactivex.Observable
 import javax.inject.Inject
 
 /**
@@ -14,6 +15,10 @@ class KakaoRepositoryImpl @Inject constructor(
 
     override suspend fun getBlogResult(searchWord: String): BlogDto {
         return api.getBlogResult(searchWord)
+    }
+
+    override fun getRxJavaBlogResult(searchWord: String): Observable<BlogDto> {
+        return api.getRxJavaBlogResult(searchWord)
     }
 
 

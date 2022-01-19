@@ -14,7 +14,7 @@ import javax.inject.Inject
  * Created by c0de_h0ng on 2022/01/18.
  */
 class GetBlogUseCase @Inject constructor(
-    private val repository: KakaoRepository
+    val repository: KakaoRepository
 ) {
 
     operator fun invoke(searchWord: String): Flow<Resource<List<Blog>>> = flow {
