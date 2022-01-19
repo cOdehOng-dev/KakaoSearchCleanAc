@@ -21,6 +21,8 @@ class BlogViewModel @Inject constructor(
     private val getBlogUseCase: GetBlogUseCase
 ) : ViewModel() {
 
+    var isReady = false
+
     private val _blogList = MutableLiveData<List<Blog>>()
     val blogList: LiveData<List<Blog>>
         get() = _blogList

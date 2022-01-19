@@ -17,6 +17,28 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        thread(start=true) {
+//            for (i in 1..5) {
+//                Thread.sleep(1000)
+//            }
+//            viewModel.isReady = true
+//        }
+//        val content: View = findViewById(android.R.id.content)
+//        content.viewTreeObserver.addOnPreDrawListener(
+//            object : ViewTreeObserver.OnPreDrawListener {
+//                override fun onPreDraw(): Boolean {
+//                    // Check if the initial data is ready.
+//                    return if (viewModel.isReady) {
+//                        // The content is ready; start drawing.
+//                        content.viewTreeObserver.removeOnPreDrawListener(this)
+//                        true
+//                    } else {
+//                        // The content is not ready; suspend.
+//                        false
+//                    }
+//                }
+//            }
+//        )
         viewModel.getBlogResultList("카카오톡")
     }
 
