@@ -12,6 +12,7 @@ import com.c0de_h0ng.kakaosearchcleanac.domain.use_case.GetBlogUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -23,6 +24,8 @@ import javax.inject.Inject
 class BlogViewModel @Inject constructor(
     private val getBlogUseCase: GetBlogUseCase
 ) : ViewModel() {
+
+
 
     private val _blogList = MutableLiveData<List<Blog>>()
     val blogList: LiveData<List<Blog>>
@@ -52,9 +55,9 @@ class BlogViewModel @Inject constructor(
     fun getRxJavaBlogResult(searchWord: String) {
         disposables.add(getBlogUseCase.repository.getRxJavaBlogResult(searchWord)
             .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
             .doOnSubscribe {
                 // 구독할 때 수행할 작업을 구현
-
             }
             .doOnTerminate {
                 // 스트림이 종료될 때 수행할 작업을 구현
@@ -62,6 +65,7 @@ class BlogViewModel @Inject constructor(
             .subscribe({
                 //onNext
                 // 작업 중 오류가 발생하면 이 블록은 호출되지 x
+                // 서버에서 404 에러 등이 올 경우
                 val blog = it.toBlog()
                 Log.d("RxJava", blog.size.toString())
             }, {
