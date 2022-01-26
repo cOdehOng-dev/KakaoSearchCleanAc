@@ -28,4 +28,5 @@ class GetBlogUseCase @Inject constructor(
             emit(Resource.Error<List<Blog>>("Couldn't reach server. Check your internet"))
         }
     }
+
 }
