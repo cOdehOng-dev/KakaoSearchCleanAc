@@ -3,9 +3,9 @@ package com.c0de_h0ng.kakaosearchcleanac.presentation
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.c0de_h0ng.kakaosearchcleanac.common.Resource
+import com.c0de_h0ng.kakaosearchcleanac.common.base.BaseViewModel
 import com.c0de_h0ng.kakaosearchcleanac.data.remote.dto.blog.toBlog
 import com.c0de_h0ng.kakaosearchcleanac.domain.model.Blog
 import com.c0de_h0ng.kakaosearchcleanac.domain.use_case.GetBlogUseCase
@@ -25,7 +25,7 @@ import javax.inject.Inject
 class BlogViewModel @Inject constructor(
     private val getBlogUseCase: GetBlogUseCase,
     private val getRxJavaUseCase: GetRxJavaUseCase
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val _blogList = MutableLiveData<List<Blog>>()
     val blogList: LiveData<List<Blog>>
