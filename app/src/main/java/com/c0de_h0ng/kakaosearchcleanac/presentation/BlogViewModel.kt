@@ -9,6 +9,7 @@ import com.c0de_h0ng.kakaosearchcleanac.common.Resource
 import com.c0de_h0ng.kakaosearchcleanac.data.remote.dto.blog.toBlog
 import com.c0de_h0ng.kakaosearchcleanac.domain.model.Blog
 import com.c0de_h0ng.kakaosearchcleanac.domain.use_case.GetBlogUseCase
+import com.c0de_h0ng.kakaosearchcleanac.domain.use_case.GetRxJavaUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -22,10 +23,9 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class BlogViewModel @Inject constructor(
-    private val getBlogUseCase: GetBlogUseCase
+    private val getBlogUseCase: GetBlogUseCase,
+    private val getRxJavaUseCase: GetRxJavaUseCase
 ) : ViewModel() {
-
-
 
     private val _blogList = MutableLiveData<List<Blog>>()
     val blogList: LiveData<List<Blog>>
@@ -53,7 +53,7 @@ class BlogViewModel @Inject constructor(
 
     //RxJava
     fun getRxJavaBlogResult(searchWord: String) {
-        disposables.add(getBlogUseCase.repository.getRxJavaBlogResult(searchWord)
+        disposables.add(getRxJavaUseCase(searchWord)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .doOnSubscribe {
@@ -64,8 +64,7 @@ class BlogViewModel @Inject constructor(
             }
             .subscribe({
                 //onNext
-                // 작업 중 오류가 발생하면 이 블록은 호출되지 x
-                // 서버에서 404 에러 등이 올 경우
+                // 작업 중 오류(서버에서 404 에러 등)가 발생하면 이 블록은 호출되지 x
                 val blog = it.toBlog()
                 Log.d("RxJava", blog.size.toString())
             }, {

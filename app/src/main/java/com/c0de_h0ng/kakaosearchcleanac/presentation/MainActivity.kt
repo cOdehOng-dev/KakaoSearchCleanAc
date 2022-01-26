@@ -17,8 +17,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.getBlogResultList("카카오톡")
+        //viewModel.getBlogResultList("카카오톡")
         viewModel.getRxJavaBlogResult("카카오톡")
+        //viewModel.getRxJavaBlogResult("카카오톡")
     }
 
 }
