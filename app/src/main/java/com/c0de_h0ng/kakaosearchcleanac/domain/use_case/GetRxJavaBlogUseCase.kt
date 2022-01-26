@@ -11,5 +11,7 @@ class GetRxJavaBlogUseCase @Inject constructor(
     private val repository: KakaoRepository
 ) {
 
+    //
+
 
 }
