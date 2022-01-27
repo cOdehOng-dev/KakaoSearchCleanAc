@@ -22,7 +22,7 @@ class KakaoRepositoryImpl @Inject constructor(
         return api.getRxJavaBlogResult(searchWord)
     }
 
-    override fun getRxJavaBlogSingleResult(searchWord: String): Single<BlogDto> {
+    override fun getRxJavaBlogSingleResult(searchWord: String): Observable<BlogDto> {
         return api.getSingleRxJavaBlogResult(searchWord)
     }
 

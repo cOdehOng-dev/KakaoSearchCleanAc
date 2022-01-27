@@ -3,7 +3,7 @@ package com.c0de_h0ng.kakaosearchcleanac.domain.use_case
 import com.c0de_h0ng.kakaosearchcleanac.common.base.SingleUseCase
 import com.c0de_h0ng.kakaosearchcleanac.data.remote.dto.blog.BlogDto
 import com.c0de_h0ng.kakaosearchcleanac.domain.repository.KakaoRepository
-import io.reactivex.Single
+import io.reactivex.Observable
 import javax.inject.Inject
 
 /**
@@ -14,7 +14,7 @@ class GetSingleRxJavaBlogUseCase @Inject constructor(
     private val repository: KakaoRepository
 ) : SingleUseCase<String, BlogDto>() {
 
-    override fun execute(t: String): Single<BlogDto> {
+    override fun execute(t: String): Observable<BlogDto> {
         return repository.getRxJavaBlogSingleResult(t)
     }
 

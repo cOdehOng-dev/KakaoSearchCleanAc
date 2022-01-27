@@ -23,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class BlogViewModel @Inject constructor(
     private val getBlogUseCase: GetBlogUseCase,
-    private val getRxJavaUseCase: GetRxJavaBlogUseCase,
+    private val getRxJavaBlogUseCase: GetRxJavaBlogUseCase,
     private val getSingleRxJavaBlogUseCase: GetSingleRxJavaBlogUseCase
 ) : BaseViewModel() {
 
@@ -33,7 +33,7 @@ class BlogViewModel @Inject constructor(
 
     private val blogResult = getSingleRxJavaBlogUseCase.observe()
 
-    private val blogResult2 = getRxJavaUseCase.observe()
+    private val blogResult2 = getRxJavaBlogUseCase.observe()
 
     private val _rxJavaSingleBlogList = MediatorLiveData<List<Blog>>()
     val rxJavaSingleBlogList: LiveData<List<Blog>>
@@ -74,14 +74,14 @@ class BlogViewModel @Inject constructor(
                     Log.d("Resource >>> ", "Fail")
                 }
                 is Resource.Loading -> {
-
+                    Log.d("Resource >>> ", "Loading")
                 }
             }
         }
     }
 
     fun getRxJavaBlog(searchWord: String) {
-        this(getRxJavaUseCase(searchWord))
+        this(getRxJavaBlogUseCase(searchWord))
         _rxJavaSingleBlogList.addSource(blogResult2) {
             when (it) {
                 is Resource.Success -> {

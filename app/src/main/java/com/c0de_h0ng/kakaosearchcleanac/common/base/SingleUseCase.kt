@@ -3,7 +3,7 @@ package com.c0de_h0ng.kakaosearchcleanac.common.base
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.c0de_h0ng.kakaosearchcleanac.common.Resource
-import io.reactivex.Single
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers.io
@@ -21,6 +21,14 @@ abstract class SingleUseCase<T, R> {
         return execute(t)
             .subscribeOn(io())
             .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe {
+                Log.d("Loading ", "start")
+                result.value = Resource.Loading()
+            }
+            .doOnTerminate {
+                Log.d("Loading ", "finish")
+                result.value = Resource.Loading()
+            }
             .subscribe({
                 Log.d("Result >>> ", "Success")
                 result.value = Resource.Success(it)
@@ -30,6 +38,6 @@ abstract class SingleUseCase<T, R> {
             })
     }
 
-    abstract fun execute(t: T): Single<R>
+    abstract fun execute(t: T): Observable<R>
 
 }
