@@ -25,11 +25,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         //viewModel.getRxJavaBlogResult("카카오톡")
 
         viewModel.getRxJavaSingleBlogResult("카카오톡")
+        //viewModel.getRxJavaBlog("카카오톡")
     }
 
 
     private fun observeViewModel() {
         viewModel.rxJavaSingleBlogList.observe(this) {
+            Log.d("Blog Result >>> ", it.size.toString())
+            for (i in it.indices) {
+                Log.d("Blog Result >>> ", it[i].blogName)
+            }
+        }
+
+        viewModel.blogList.observe(this) {
             for (i in it.indices) {
                 Log.d("Blog Result >>> ", it[i].blogName)
             }

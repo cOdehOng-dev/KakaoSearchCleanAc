@@ -8,21 +8,14 @@ data class BlogDto(
 )
 
 fun BlogDto.toBlog(): List<Blog> {
-    val result = mutableListOf<Blog>()
-    for (i in documents.indices) {
-        with(documents[i]) {
-            result.add(
-                Blog(
-                    blogName = this.blogName,
-                    contents = this.contents,
-                    datetime = this.datetime,
-                    thumbnail = this.datetime,
-                    title = this.title,
-                    url = this.url
-                )
-            )
-        }
+    return documents.toList().map {
+        Blog(
+            blogName = it.blogName,
+            contents = it.contents,
+            datetime = it.datetime,
+            thumbnail = it.datetime,
+            title = it.title,
+            url = it.url
+        )
     }
-    return result
-
 }
