@@ -1,11 +1,12 @@
 package com.c0de_h0ng.kakaosearchcleanac.common.base
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.c0de_h0ng.kakaosearchcleanac.common.Resource
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.schedulers.Schedulers.io
 
 /**
  * Created by c0de_h0ng on 2022/01/26.
@@ -18,15 +19,17 @@ abstract class SingleUseCase<T, R> {
 
     operator fun invoke(t: T): Disposable {
         return execute(t)
-            .subscribeOn(Schedulers.io())
+            .subscribeOn(io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                result.value = it
+                Log.d("Result >>> ", "Success")
+                result.value = Resource.Success(it)
             }, {
+                Log.d("Result >>> ", it.localizedMessage ?: "An unexpected error occured")
                 result.value = Resource.Error(it.localizedMessage ?: "An unexpected error occured")
             })
     }
 
-    abstract fun execute(t: T): Single<Resource<R>>
+    abstract fun execute(t: T): Single<R>
 
 }

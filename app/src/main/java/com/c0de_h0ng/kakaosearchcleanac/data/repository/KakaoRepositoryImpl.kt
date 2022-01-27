@@ -4,6 +4,7 @@ import com.c0de_h0ng.kakaosearchcleanac.data.remote.KakaoApi
 import com.c0de_h0ng.kakaosearchcleanac.data.remote.dto.blog.BlogDto
 import com.c0de_h0ng.kakaosearchcleanac.domain.repository.KakaoRepository
 import io.reactivex.Observable
+import io.reactivex.Single
 import javax.inject.Inject
 
 /**
@@ -19,6 +20,10 @@ class KakaoRepositoryImpl @Inject constructor(
 
     override fun getRxJavaBlogResult(searchWord: String): Observable<BlogDto> {
         return api.getRxJavaBlogResult(searchWord)
+    }
+
+    override fun getRxJavaBlogSingleResult(searchWord: String): Single<BlogDto> {
+        return api.getSingleRxJavaBlogResult(searchWord)
     }
 
 

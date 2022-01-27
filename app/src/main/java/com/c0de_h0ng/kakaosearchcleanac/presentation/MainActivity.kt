@@ -1,6 +1,7 @@
 package com.c0de_h0ng.kakaosearchcleanac.presentation
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import com.c0de_h0ng.kakaosearchcleanac.R
 import com.c0de_h0ng.kakaosearchcleanac.common.base.BaseActivity
@@ -17,9 +18,24 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        observeViewModel()
         //viewModel.getBlogResultList("카카오톡")
-        viewModel.getRxJavaBlogResult("카카오톡")
         //viewModel.getRxJavaBlogResult("카카오톡")
+        //viewModel.getRxJavaBlogResult("카카오톡")
+
+        viewModel.getRxJavaSingleBlogResult("카카오톡")
     }
+
+
+    private fun observeViewModel() {
+        viewModel.rxJavaSingleBlogList.observe(this) {
+            for (i in it.indices) {
+                Log.d("Blog Result >>> ", it[i].blogName)
+            }
+        }
+    }
+
+
 
 }
