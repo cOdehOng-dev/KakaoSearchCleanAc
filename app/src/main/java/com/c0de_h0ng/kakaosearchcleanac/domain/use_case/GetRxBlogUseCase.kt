@@ -1,7 +1,7 @@
 package com.c0de_h0ng.kakaosearchcleanac.domain.use_case
 
 import android.util.Log
-import com.c0de_h0ng.kakaosearchcleanac.common.Resource
+import com.c0de_h0ng.kakaosearchcleanac.common.CallResult
 import com.c0de_h0ng.kakaosearchcleanac.common.base.BaseUseCase
 import com.c0de_h0ng.kakaosearchcleanac.data.remote.dto.blog.BlogDto
 import com.c0de_h0ng.kakaosearchcleanac.domain.repository.KakaoRepository
@@ -12,7 +12,7 @@ import javax.inject.Inject
 /**
  * Created by c0de_h0ng on 2022/01/26.
  */
-class GetRxJavaBlogUseCase @Inject constructor(
+class GetRxBlogUseCase @Inject constructor(
     private val repository: KakaoRepository
 ) : BaseUseCase<BlogDto>() {
 
@@ -20,17 +20,17 @@ class GetRxJavaBlogUseCase @Inject constructor(
         return repository.getRxJavaBlogResult(searchWord)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
-                //result.value = Resource.Loading(null, null, true)
+                result.value = CallResult.Loading(true)
             }
             .doOnTerminate {
-                //result.value = Resource.Loading(true)
+                result.value = CallResult.Loading(false)
             }
             .subscribe({
                 Log.d("Result >>> ", "Success")
-                result.value = Resource.Success(it)
+                result.value = CallResult.Success(it)
             }, {
                 Log.d("Result >>> ", it.localizedMessage ?: "An unexpected error occured")
-                result.value = Resource.Error(it.localizedMessage ?: "An unexpected error occured")
+                result.value = CallResult.Error(it.localizedMessage ?: "An unexpected error occured", 400)
             })
     }
 

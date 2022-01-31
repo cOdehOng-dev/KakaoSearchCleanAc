@@ -27,6 +27,10 @@ abstract class BaseViewModel : ViewModel() {
         _isLoadingObservable.value = false
     }
 
+    fun loadingProgress(isLoading: Boolean) {
+        _isLoadingObservable.value = isLoading
+    }
+
 
     operator fun invoke(disposable: Disposable) {
         this.disposable.add(disposable)

@@ -5,12 +5,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.c0de_h0ng.kakaosearchcleanac.common.CallResult
 import com.c0de_h0ng.kakaosearchcleanac.common.Resource
 import com.c0de_h0ng.kakaosearchcleanac.common.base.BaseViewModel
 import com.c0de_h0ng.kakaosearchcleanac.data.remote.dto.blog.toBlog
 import com.c0de_h0ng.kakaosearchcleanac.domain.model.Blog
 import com.c0de_h0ng.kakaosearchcleanac.domain.use_case.GetBlogUseCase
-import com.c0de_h0ng.kakaosearchcleanac.domain.use_case.GetRxJavaBlogUseCase
+import com.c0de_h0ng.kakaosearchcleanac.domain.use_case.GetRxBlogUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -22,14 +23,14 @@ import javax.inject.Inject
 @HiltViewModel
 class BlogViewModel @Inject constructor(
     private val getBlogUseCase: GetBlogUseCase,
-    private val getRxJavaBlogUseCase: GetRxJavaBlogUseCase
+    private val getRxBlogUseCase: GetRxBlogUseCase
 ) : BaseViewModel() {
 
     private val _blogList = MutableLiveData<List<Blog>>()
     val blogList: LiveData<List<Blog>>
         get() = _blogList
 
-    private val blogResult = getRxJavaBlogUseCase.observe()
+    private val blogResult = getRxBlogUseCase.observe()
 
     private val _rxJavaSingleBlogList = MediatorLiveData<List<Blog>>()
     val rxJavaSingleBlogList: LiveData<List<Blog>>
@@ -57,22 +58,43 @@ class BlogViewModel @Inject constructor(
 
     // RxJava
     fun getRxJavaSingleBlogResult(searchWord: String) {
-        this(getRxJavaBlogUseCase(searchWord))
+        this(getRxBlogUseCase(searchWord))
         _rxJavaSingleBlogList.addSource(blogResult) {
             when (it) {
-                is Resource.Success -> {
+                is CallResult.Success -> {
                     Log.d("Resource >>> ", "Success")
-                    val blog = blogResult.value?.data?.toBlog()
+                    //val blog = blogResult.value?.data?.toBlog()
+                    val blog = it.data?.toBlog()
                     _rxJavaSingleBlogList.value = blog
                 }
-                is Resource.Error -> {
+                is CallResult.Error -> {
                     Log.d("Resource >>> ", "Fail")
                 }
-                is Resource.Loading -> {
+                is CallResult.Loading -> {
                     Log.d("Resource >>> ", "Loading")
+                    loadingProgress(it.isLoading)
                 }
             }
         }
+
+
+//        this(getRxBlogUseCase(searchWord))
+//        _rxJavaSingleBlogList.addSource(blogResult) {
+//            when (it) {
+//                is Resource.Success -> {
+//                    Log.d("Resource >>> ", "Success")
+//                    val blog = blogResult.value?.data?.toBlog()
+//                    _rxJavaSingleBlogList.value = blog
+//                }
+//                is Resource.Error -> {
+//                    Log.d("Resource >>> ", "Fail")
+//                }
+//                is Resource.Loading -> {
+//                    Log.d("Resource >>> ", "Loading")
+//                }
+//            }
+//        }
+
     }
 
     // RxJava
