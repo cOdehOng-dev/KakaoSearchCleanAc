@@ -6,7 +6,6 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.c0de_h0ng.kakaosearchcleanac.common.CallResult
-import com.c0de_h0ng.kakaosearchcleanac.common.Resource
 import com.c0de_h0ng.kakaosearchcleanac.common.base.BaseViewModel
 import com.c0de_h0ng.kakaosearchcleanac.data.remote.dto.blog.toBlog
 import com.c0de_h0ng.kakaosearchcleanac.domain.model.Blog
@@ -32,26 +31,24 @@ class BlogViewModel @Inject constructor(
 
     private val blogResult = getRxBlogUseCase.observe()
 
-    private val _rxJavaSingleBlogList = MediatorLiveData<List<Blog>>()
-    val rxJavaSingleBlogList: LiveData<List<Blog>>
-        get() = _rxJavaSingleBlogList
+    private val _rxBlogList = MediatorLiveData<List<Blog>>()
+    val rxBlogList: LiveData<List<Blog>>
+        get() = _rxBlogList
 
-    //private val disposables = CompositeDisposable()
 
-    //Coroutine + Flow
+    // Coroutine + Flow
     fun getBlogResultList(searchWord: String) {
+        loadingProgress(true)
         getBlogUseCase(searchWord).onEach { result ->
             when (result) {
-                is Resource.Success -> {
+                is CallResult.Success -> {
                     _blogList.value = result.data ?: emptyList()
                     Log.d("BlogViewModel", result.data?.size.toString())
                 }
-                is Resource.Error -> {
+                is CallResult.Error -> {
 
                 }
-                is Resource.Loading -> {
-
-                }
+                is CallResult.Loading -> loadingProgress(result.isLoading)
             }
         }.launchIn(viewModelScope)
     }
@@ -59,13 +56,12 @@ class BlogViewModel @Inject constructor(
     // RxJava
     fun getRxJavaSingleBlogResult(searchWord: String) {
         this(getRxBlogUseCase(searchWord))
-        _rxJavaSingleBlogList.addSource(blogResult) {
+        _rxBlogList.addSource(blogResult) {
             when (it) {
                 is CallResult.Success -> {
                     Log.d("Resource >>> ", "Success")
-                    //val blog = blogResult.value?.data?.toBlog()
                     val blog = it.data?.toBlog()
-                    _rxJavaSingleBlogList.value = blog
+                    _rxBlogList.value = blog
                 }
                 is CallResult.Error -> {
                     Log.d("Resource >>> ", "Fail")
@@ -76,57 +72,6 @@ class BlogViewModel @Inject constructor(
                 }
             }
         }
-
-
-//        this(getRxBlogUseCase(searchWord))
-//        _rxJavaSingleBlogList.addSource(blogResult) {
-//            when (it) {
-//                is Resource.Success -> {
-//                    Log.d("Resource >>> ", "Success")
-//                    val blog = blogResult.value?.data?.toBlog()
-//                    _rxJavaSingleBlogList.value = blog
-//                }
-//                is Resource.Error -> {
-//                    Log.d("Resource >>> ", "Fail")
-//                }
-//                is Resource.Loading -> {
-//                    Log.d("Resource >>> ", "Loading")
-//                }
-//            }
-//        }
-
     }
-
-    // RxJava
-//    fun getRxJavaBlogResult(searchWord: String) {
-//        disposables.add(getRxJavaUseCase(searchWord)
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribeOn(Schedulers.io())
-//            .doOnSubscribe {
-//                // 구독할 때 수행할 작업을 구현
-//            }
-//            .doOnTerminate {
-//                // 스트림이 종료될 때 수행할 작업을 구현
-//            }
-//            .subscribe({
-//                //onNext
-//                // 작업 중 오류(서버에서 404 에러 등)가 발생하면 이 블록은 호출되지 x
-//                val blog = it.toBlog()
-//                Log.d("RxJava", blog.size.toString())
-//            }, {
-//                //onError
-//                // 에러 블록
-//                // 네트워크 오류나 데이터 처리 오류 등
-//                // 작업이 정상적으로 완료되지 않았을 때 호출
-//            }, {
-//                //onComplete
-//            })
-//        )
-//    }
-
-//    override fun onCleared() {
-//        disposables.clear()
-//        super.onCleared()
-//    }
 
 }

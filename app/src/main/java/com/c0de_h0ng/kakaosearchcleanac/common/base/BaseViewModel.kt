@@ -19,14 +19,6 @@ abstract class BaseViewModel : ViewModel() {
     val isLoadingObservable: LiveData<Boolean>
         get() = _isLoadingObservable
 
-    fun showLoading() {
-        _isLoadingObservable.value = true
-    }
-
-    fun hideLoading() {
-        _isLoadingObservable.value = false
-    }
-
     fun loadingProgress(isLoading: Boolean) {
         _isLoadingObservable.value = isLoading
     }

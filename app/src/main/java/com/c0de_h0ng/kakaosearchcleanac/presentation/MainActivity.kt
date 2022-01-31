@@ -19,16 +19,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         observeViewModel()
         viewModel.getBlogResultList("카카오톡")
-        viewModel.getRxJavaSingleBlogResult("카카오톡")
+        //viewModel.getRxJavaSingleBlogResult("카카오톡")
     }
 
 
     private fun observeViewModel() {
         with(viewModel) {
-            rxJavaSingleBlogList.observe(this@MainActivity) {
+            rxBlogList.observe(this@MainActivity) {
                 Log.d("Blog Result2 >>> ", it.size.toString())
                 for (i in it.indices) {
                     Log.d("Blog Result2 >>> ", it[i].blogName)
@@ -49,7 +48,5 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
         }
     }
-
-
 
 }
