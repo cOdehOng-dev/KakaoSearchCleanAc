@@ -12,4 +12,6 @@ object Constants {
     const val WRITE_TIMEOUT: Long = 10
     const val READ_TIMEOUT: Long = 10
 
+    const val PROGRESS_DIALOG_FRAGMENT = "progress_dialog_fragment"
+
 }

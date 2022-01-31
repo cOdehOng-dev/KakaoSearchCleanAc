@@ -6,12 +6,8 @@ import com.c0de_h0ng.kakaosearchcleanac.common.Resource
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers.io
+import io.reactivex.schedulers.Schedulers
 
-/**
- * Created by c0de_h0ng on 2022/01/26.
- * https://ghs-dev.tistory.com/m/entry/%EC%95%88%EB%93%9C%EB%A1%9C%EC%9D%B4%EB%93%9C-MVVM-Clean-Architecture
- */
 abstract class SingleUseCase<T, R> {
     private val result = MutableLiveData<Resource<R>>()
 
@@ -19,16 +15,8 @@ abstract class SingleUseCase<T, R> {
 
     operator fun invoke(t: T): Disposable {
         return execute(t)
-            .subscribeOn(io())
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe {
-                Log.d("Loading ", "start")
-                result.value = Resource.Loading()
-            }
-            .doOnTerminate {
-                Log.d("Loading ", "finish")
-                result.value = Resource.Loading()
-            }
             .subscribe({
                 Log.d("Result >>> ", "Success")
                 result.value = Resource.Success(it)

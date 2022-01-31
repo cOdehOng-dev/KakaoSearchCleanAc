@@ -7,6 +7,8 @@ import com.c0de_h0ng.kakaosearchcleanac.common.Constants.READ_TIMEOUT
 import com.c0de_h0ng.kakaosearchcleanac.common.Constants.WRITE_TIMEOUT
 import com.c0de_h0ng.kakaosearchcleanac.common.PrettyHttpLogging
 import com.c0de_h0ng.kakaosearchcleanac.data.remote.KakaoApi
+import com.c0de_h0ng.kakaosearchcleanac.data.remote.datasource.KakaoRemoteDataSource
+import com.c0de_h0ng.kakaosearchcleanac.data.remote.datasource.KakaoRemoteDataSourceImpl
 import com.c0de_h0ng.kakaosearchcleanac.data.repository.KakaoRepositoryImpl
 import com.c0de_h0ng.kakaosearchcleanac.domain.repository.KakaoRepository
 import dagger.Module
@@ -62,7 +64,14 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideKakaoRepository(api: KakaoApi): KakaoRepository {
-        return KakaoRepositoryImpl(api)
+    fun provideKakaoRemoteDataSource(api: KakaoApi): KakaoRemoteDataSource {
+        return KakaoRemoteDataSourceImpl(api)
     }
+
+    @Provides
+    @Singleton
+    fun provideKakaoRepository(remote: KakaoRemoteDataSource): KakaoRepository {
+        return KakaoRepositoryImpl(remote)
+    }
+
 }

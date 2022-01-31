@@ -1,30 +1,25 @@
 package com.c0de_h0ng.kakaosearchcleanac.data.repository
 
-import com.c0de_h0ng.kakaosearchcleanac.data.remote.KakaoApi
+import com.c0de_h0ng.kakaosearchcleanac.data.remote.datasource.KakaoRemoteDataSource
 import com.c0de_h0ng.kakaosearchcleanac.data.remote.dto.blog.BlogDto
 import com.c0de_h0ng.kakaosearchcleanac.domain.repository.KakaoRepository
 import io.reactivex.Observable
-import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 /**
  * Created by c0de_h0ng on 2022/01/18.
  */
 class KakaoRepositoryImpl @Inject constructor(
-    private val api: KakaoApi
+    private val remote: KakaoRemoteDataSource
 ) : KakaoRepository {
 
     override suspend fun getBlogResult(searchWord: String): BlogDto {
-        return api.getBlogResult(searchWord)
+        return remote.getBlogResult(searchWord)
     }
 
     override fun getRxJavaBlogResult(searchWord: String): Observable<BlogDto> {
-        return api.getRxJavaBlogResult(searchWord)
+        return remote.getRxJavaBlogResult(searchWord).subscribeOn(Schedulers.io())
     }
-
-    override fun getRxJavaBlogSingleResult(searchWord: String): Observable<BlogDto> {
-        return api.getSingleRxJavaBlogResult(searchWord)
-    }
-
 
 }
