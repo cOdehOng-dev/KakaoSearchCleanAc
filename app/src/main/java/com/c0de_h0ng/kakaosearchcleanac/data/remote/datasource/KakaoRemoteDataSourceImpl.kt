@@ -2,7 +2,7 @@ package com.c0de_h0ng.kakaosearchcleanac.data.remote.datasource
 
 import com.c0de_h0ng.kakaosearchcleanac.data.remote.KakaoApi
 import com.c0de_h0ng.kakaosearchcleanac.data.remote.dto.blog.BlogDto
-import io.reactivex.Observable
+import io.reactivex.Flowable
 import javax.inject.Inject
 
 /**
@@ -16,7 +16,7 @@ class KakaoRemoteDataSourceImpl @Inject constructor(
         return api.getBlogResult(searchWord)
     }
 
-    override fun getRxJavaBlogResult(searchWord: String): Observable<BlogDto> {
+    override fun getRxJavaBlogResult(searchWord: String): Flowable<BlogDto> {
         return api.getRxJavaBlogResult(searchWord)
     }
 

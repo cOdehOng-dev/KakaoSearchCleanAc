@@ -1,6 +1,7 @@
 package com.c0de_h0ng.kakaosearchcleanac.data.remote
 
 import com.c0de_h0ng.kakaosearchcleanac.data.remote.dto.blog.BlogDto
+import io.reactivex.Flowable
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -20,7 +21,7 @@ interface KakaoApi {
     @GET("/v2/search/blog")
     fun getRxJavaBlogResult(
         @Query("query") searchWord: String
-    ): Observable<BlogDto>
+    ): Flowable<BlogDto>
 
     //RxJava(Single)
     @GET("/v2/search/blog")

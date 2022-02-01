@@ -1,4 +1,4 @@
-package com.c0de_h0ng.kakaosearchcleanac.domain.use_case
+package com.c0de_h0ng.kakaosearchcleanac.domain.usecase
 
 import com.c0de_h0ng.kakaosearchcleanac.common.CallResult
 import com.c0de_h0ng.kakaosearchcleanac.data.remote.dto.blog.toBlog
@@ -29,17 +29,5 @@ class GetBlogUseCase @Inject constructor(
             emit(CallResult.Loading(isLoading = false))
         }
     }
-
-//    operator fun invoke(searchWord: String): Flow<Resource<List<Blog>>> = flow {
-//        try {
-//            emit(Resource.Loading<List<Blog>>())
-//            val blog = repository.getBlogResult(searchWord).toBlog()
-//            emit(Resource.Success<List<Blog>>(blog))
-//        } catch (e: HttpException) {
-//            emit(Resource.Error<List<Blog>>(e.localizedMessage ?: "An unexpected error occured"))
-//        } catch (e: IOException) {
-//            emit(Resource.Error<List<Blog>>("Couldn't reach server. Check your internet"))
-//        }
-//    }
 
 }

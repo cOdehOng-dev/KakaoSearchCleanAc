@@ -28,4 +28,5 @@ abstract class SingleUseCase<T, R> {
 
     abstract fun execute(t: T): Observable<R>
 
+
 }

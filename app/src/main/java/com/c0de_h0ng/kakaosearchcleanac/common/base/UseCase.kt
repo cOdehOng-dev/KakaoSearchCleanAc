@@ -1,23 +1,21 @@
-package com.c0de_h0ng.kakaosearchcleanac.domain.use_case
+package com.c0de_h0ng.kakaosearchcleanac.common.base
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.c0de_h0ng.kakaosearchcleanac.common.CallResult
-import com.c0de_h0ng.kakaosearchcleanac.common.base.BaseUseCase
-import com.c0de_h0ng.kakaosearchcleanac.data.remote.dto.blog.BlogDto
-import com.c0de_h0ng.kakaosearchcleanac.domain.repository.KakaoRepository
+import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import javax.inject.Inject
 
 /**
- * Created by c0de_h0ng on 2022/01/26.
+ * Created by c0de_h0ng on 2022/02/01.
  */
-class GetRxBlogUseCase @Inject constructor(
-    private val repository: KakaoRepository
-) : BaseUseCase<BlogDto>() {
+abstract class UseCase<T: Any, R: Any> {
+    private val result = MutableLiveData<CallResult<R>>()
+    fun observe() = result
 
-    operator fun invoke(searchWord: String): Disposable {
-        return repository.getRxJavaBlogResult(searchWord)
+    operator fun invoke(t: T): Disposable {
+        return buildUseCaseFlowable(t)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
                 result.value = CallResult.Loading(true)
@@ -33,5 +31,8 @@ class GetRxBlogUseCase @Inject constructor(
                 result.value = CallResult.Error(it.localizedMessage ?: "An unexpected error occured", 400)
             })
     }
+
+    abstract fun buildUseCaseFlowable(param: T): Flowable<R>
+
 
 }

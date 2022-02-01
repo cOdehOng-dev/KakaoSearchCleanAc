@@ -9,8 +9,8 @@ import com.c0de_h0ng.kakaosearchcleanac.common.CallResult
 import com.c0de_h0ng.kakaosearchcleanac.common.base.BaseViewModel
 import com.c0de_h0ng.kakaosearchcleanac.data.remote.dto.blog.toBlog
 import com.c0de_h0ng.kakaosearchcleanac.domain.model.Blog
-import com.c0de_h0ng.kakaosearchcleanac.domain.use_case.GetBlogUseCase
-import com.c0de_h0ng.kakaosearchcleanac.domain.use_case.GetRxBlogUseCase
+import com.c0de_h0ng.kakaosearchcleanac.domain.usecase.GetBlogUseCase
+import com.c0de_h0ng.kakaosearchcleanac.domain.usecase.GetRxJavaBlogUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -22,14 +22,15 @@ import javax.inject.Inject
 @HiltViewModel
 class BlogViewModel @Inject constructor(
     private val getBlogUseCase: GetBlogUseCase,
-    private val getRxBlogUseCase: GetRxBlogUseCase
+    private val getRxJavaBlogUseCase: GetRxJavaBlogUseCase
 ) : BaseViewModel() {
 
     private val _blogList = MutableLiveData<List<Blog>>()
     val blogList: LiveData<List<Blog>>
         get() = _blogList
 
-    private val blogResult = getRxBlogUseCase.observe()
+
+    private val rxBlogResult = getRxJavaBlogUseCase.observe()
 
     private val _rxBlogList = MediatorLiveData<List<Blog>>()
     val rxBlogList: LiveData<List<Blog>>
@@ -54,9 +55,9 @@ class BlogViewModel @Inject constructor(
     }
 
     // RxJava
-    fun getRxJavaSingleBlogResult(searchWord: String) {
-        this(getRxBlogUseCase(searchWord))
-        _rxBlogList.addSource(blogResult) {
+    fun getRxJavaBlogResult(searchWord: String) {
+        this(getRxJavaBlogUseCase(searchWord))
+        _rxBlogList.addSource(rxBlogResult) {
             when (it) {
                 is CallResult.Success -> {
                     Log.d("Resource >>> ", "Success")

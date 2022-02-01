@@ -3,7 +3,7 @@ package com.c0de_h0ng.kakaosearchcleanac.data.repository
 import com.c0de_h0ng.kakaosearchcleanac.data.remote.datasource.KakaoRemoteDataSource
 import com.c0de_h0ng.kakaosearchcleanac.data.remote.dto.blog.BlogDto
 import com.c0de_h0ng.kakaosearchcleanac.domain.repository.KakaoRepository
-import io.reactivex.Observable
+import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
@@ -18,7 +18,7 @@ class KakaoRepositoryImpl @Inject constructor(
         return remote.getBlogResult(searchWord)
     }
 
-    override fun getRxJavaBlogResult(searchWord: String): Observable<BlogDto> {
+    override fun getRxJavaBlogResult(searchWord: String): Flowable<BlogDto> {
         return remote.getRxJavaBlogResult(searchWord).subscribeOn(Schedulers.io())
     }
 

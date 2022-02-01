@@ -21,7 +21,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         super.onCreate(savedInstanceState)
         observeViewModel()
         viewModel.getBlogResultList("카카오톡")
-        //viewModel.getRxJavaSingleBlogResult("카카오톡")
+        viewModel.getRxJavaBlogResult("카카오톡")
     }
 
 
