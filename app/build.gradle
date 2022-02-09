@@ -61,6 +61,13 @@ dependencies {
     kapt "androidx.hilt:hilt-compiler:1.0.0"
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0-rc01'
 
+    //dagger
+    implementation "com.google.dagger:dagger:$dagger_version"
+    implementation "com.google.dagger:dagger-android-support:2.23.2"	// dagger-android-support 라이브러리
+    kapt "com.google.dagger:dagger-compiler:$dagger_compiler_version"
+    annotationProcessor "com.google.dagger:dagger-compiler:$dagger_compiler_version"
+    kapt "com.google.dagger:dagger-android-processor:2.23.2"
+
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
